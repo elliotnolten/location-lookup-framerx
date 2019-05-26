@@ -23,3 +23,5 @@ This package uses open source data from [PDOK](https://mijn.pdok.nl/nl/producten
 * Added keyboard navigation to go through results.
 * Added Value and Placeholder to custom properties.
 * You can set a custom maximum amount of results.
+### v1.3.0
+* Improved keyboard navigation. Going through the results with your arrow keys now updates the value in the search field.

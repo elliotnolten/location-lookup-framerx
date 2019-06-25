@@ -110,11 +110,11 @@ export function Input(props: Partial<Props>) {
 }
 
 Input.defaultProps = {
+    value: "",
     width: 200,
     height: 48,
     placeholder: "0",
     type: "number",
-    validation: v => true,
     onValueChange: () => null,
     onFocus: () => null,
     onBlur: () => null,
@@ -129,6 +129,7 @@ addPropertyControls(Input, {
         title: "Type",
         options: ["number", "text", "password", "email"],
     },
+    value: { type: ControlType.String, title: "Initial Value" },
 })
 
 const InputField = styled.input`

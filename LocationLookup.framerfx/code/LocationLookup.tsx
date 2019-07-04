@@ -17,6 +17,7 @@ type Props = Partial<FrameProps> & {
     paddingLeft: number
     backgroundColor: string
     selectColor: string
+    selectBackground: string
     initialValue: string
     placeholder: string
     type: string

@@ -101,7 +101,7 @@ export function Input(props: Partial<Props>) {
                 placeholder={placeholder}
                 type={type}
                 ref={input}
-                onChange={handleInput}
+                onChange={e => handleInput(e)}
                 onFocus={() => setFocus(true)}
                 onBlur={() => setFocus(false)}
             />
@@ -113,8 +113,8 @@ Input.defaultProps = {
     value: "",
     width: 200,
     height: 48,
-    placeholder: "0",
-    type: "number",
+    placeholder: "Type something",
+    type: "text",
     onValueChange: () => null,
     onFocus: () => null,
     onBlur: () => null,
@@ -127,7 +127,7 @@ addPropertyControls(Input, {
     type: {
         type: ControlType.Enum,
         title: "Type",
-        options: ["number", "text", "password", "email"],
+        options: ["text", "number", "search", "password", "email"],
     },
     value: { type: ControlType.String, title: "Initial Value" },
 })

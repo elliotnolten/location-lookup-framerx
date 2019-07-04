@@ -1,21 +1,19 @@
 import { Override, Data } from "framer"
 
 export const data = Data({
-    InputValue: "",
+    query: "",
 })
 
-export function InputEvents(): Override {
+export function selectQuery(): Override {
     return {
-        onValueChange(value: any) {
-            data.InputValue = value
+        onSelect(value: any) {
+            data.query = value
         },
-        onBlur(value: any) {},
-        onFocus(value: any) {},
     }
 }
 
-export function Output(): Override {
+export function showQuery(): Override {
     return {
-        query: data.InputValue,
+        text: data.query,
     }
 }

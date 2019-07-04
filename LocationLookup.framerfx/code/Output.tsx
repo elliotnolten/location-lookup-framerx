@@ -11,7 +11,6 @@ export function Output(props) {
         const url = `https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?rows=5&q=${query}`
         fetch(url).then(response => {
             response.json().then(data => {
-                console.log(data.response.docs)
                 setState({ results: data.response.docs })
             })
         })

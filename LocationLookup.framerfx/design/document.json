@@ -18,7 +18,7 @@
             "blendingMode" : "normal",
             "bottom" : null,
             "centerAnchorX" : 0.5,
-            "centerAnchorY" : 0.19333333333333333,
+            "centerAnchorY" : 0.25666666666666665,
             "children" : [
               {
                 "__class" : "CodeComponentNode",
@@ -33,7 +33,6 @@
                 "codeComponentIdentifier" : ".\/LocationLookup.tsx_LocationLookup",
                 "codeComponentProps" : {
                   "backgroundColor" : "#FFF",
-                  "borderRadius" : 4,
                   "fontSize" : 16,
                   "padding" : 16,
                   "paddingBottom" : 16,
@@ -41,19 +40,12 @@
                   "paddingPerSide" : true,
                   "paddingRight" : 16,
                   "paddingTop" : 16,
-                  "placeholder" : "Zoek op gemeente, woonplaats, adres of postcode",
-                  "resultColor" : "hsl(0, 0%, 20%)",
-                  "resultLength" : 5,
-                  "resultSpacing" : 16,
-                  "searchColor" : "#333",
-                  "selectBackground" : "rgba(0,0,0,0.05)",
-                  "selectColor" : "hsl(203, 83%, 53%)",
-                  "value" : "Singel 3"
+                  "type" : "buurt"
                 },
                 "codeOverrideEnabled" : true,
-                "codeOverrideFile" : ".\/App.tsx",
-                "codeOverrideIdentifier" : ".\/App.tsx_Select",
-                "codeOverrideName" : "Select",
+                "codeOverrideFile" : ".\/InputOverrides.tsx",
+                "codeOverrideIdentifier" : ".\/InputOverrides.tsx_selectQuery",
+                "codeOverrideName" : "selectQuery",
                 "constraintsLocked" : false,
                 "deviceType" : null,
                 "exportOptions" : [
@@ -357,7 +349,7 @@
             "replicaInfo" : null,
             "right" : null,
             "rotation" : 0,
-            "top" : 88,
+            "top" : 126,
             "visible" : true,
             "width" : 480,
             "widthType" : 0
@@ -1355,9 +1347,9 @@
             "aspectRatio" : null,
             "blendingEnabled" : 0,
             "blendingMode" : "normal",
-            "bottom" : null,
-            "centerAnchorX" : 0.52345058626465657,
-            "centerAnchorY" : 0.39895470383275261,
+            "bottom" : 80,
+            "centerAnchorX" : 0.5,
+            "centerAnchorY" : 0.47595190380761521,
             "children" : [
               {
                 "__class" : "CodeComponentNode",
@@ -1459,7 +1451,7 @@
                 "aspectRatio" : null,
                 "bottom" : 0,
                 "centerAnchorX" : 0.5,
-                "centerAnchorY" : 0.77142857142857146,
+                "centerAnchorY" : 0.56611570247933884,
                 "children" : [
 
                 ],
@@ -1521,7 +1513,7 @@
                   "widthFactor" : 0.5
                 },
                 "fillType" : "color",
-                "height" : 48,
+                "height" : 315,
                 "heightType" : 0,
                 "id" : "U63MGziqm",
                 "intrinsicHeight" : 48,
@@ -1542,9 +1534,9 @@
                 "radiusTopRight" : 0,
                 "right" : 0,
                 "rotation" : 0,
-                "top" : null,
+                "top" : 48,
                 "visible" : true,
-                "width" : 200,
+                "width" : 457,
                 "widthType" : 0
               }
             ],
@@ -1599,7 +1591,7 @@
               "widthFactor" : 0.5
             },
             "fillType" : "color",
-            "height" : 105,
+            "height" : 363,
             "heightType" : 0,
             "id" : "MLQsmBvXg",
             "intrinsicHeight" : null,
@@ -1607,7 +1599,7 @@
             "isExternalMaster" : null,
             "isMaster" : false,
             "isTarget" : false,
-            "left" : 84,
+            "left" : 70,
             "locked" : false,
             "name" : null,
             "navigationTarget" : null,
@@ -1626,9 +1618,9 @@
             "radiusTopLeft" : 0,
             "radiusTopRight" : 0,
             "replicaInfo" : null,
-            "right" : 56,
+            "right" : 70,
             "rotation" : 0,
-            "top" : 62,
+            "top" : 56,
             "visible" : true,
             "width" : 457,
             "widthType" : 0
@@ -1639,7 +1631,14 @@
         "constraintsLocked" : false,
         "deviceType" : null,
         "exportOptions" : [
-
+          {
+            "__class" : "ExportOptions",
+            "enabled" : true,
+            "nameExtension" : "",
+            "nameExtensionMode" : "Suffix",
+            "scale" : 1,
+            "type" : "png"
+          }
         ],
         "fillColor" : "white",
         "fillEnabled" : true,
@@ -1816,9 +1815,7 @@
             "top" : 8,
             "visible" : true,
             "width" : 441,
-            "widthType" : 0,
-            "x" : 22,
-            "y" : 28
+            "widthType" : 0
           },
           {
             "__class" : "TextNode",
@@ -1908,9 +1905,7 @@
             "top" : null,
             "visible" : true,
             "width" : 441,
-            "widthType" : 0,
-            "x" : 22,
-            "y" : 28
+            "widthType" : 0
           }
         ],
         "clip" : true,

@@ -16,6 +16,7 @@
 	},
 	"author": "Elliot Nolten",
 	"dependencies": {
+		"@framer/benjamin.input": "^1.2.0",
 		"styled-components": "^4.1.3"
 	},
 	"name": "@framer/elliot.location-lookup"

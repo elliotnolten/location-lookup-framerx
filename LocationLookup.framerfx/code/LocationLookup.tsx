@@ -15,14 +15,13 @@ type Props = Partial<FrameProps> & {
     paddingRight: number
     paddingBottom: number
     paddingLeft: number
-    backgroundColor: string
+    resultColor: string
     selectColor: string
     selectBackground: string
     initialValue: string
-    placeholder: string
     type: string
     fontSize: number
-    onSelect: (value: string) => void
+    onSelect: (value: any) => void
 }
 
 export function LocationLookup(props: Partial<Props>) {
@@ -36,15 +35,18 @@ export function LocationLookup(props: Partial<Props>) {
         paddingBottom,
         paddingLeft,
         backgroundColor,
+        color,
+        resultColor,
         selectColor,
+        selectBackground,
         initialValue,
+        borderRadius,
         placeholder,
         type,
         fontSize,
         onSelect,
     } = props
     const input = React.useRef<HTMLInputElement>()
-
     const [state, setState] = React.useState({
         results: [],
         focused: -1,
@@ -84,19 +86,17 @@ export function LocationLookup(props: Partial<Props>) {
         }
     }
 
-    function selectSuggestion(e, selection) {
-        e.preventDefault()
+    function selectSuggestion(selection) {
         setState({ ...state, results: [], selection })
         input.current.value = selection
         input.current.focus()
-        onSelect(selection)
+        // onSelect(selection)
     }
 
     function handleKeyDown(e) {
-        e.preventDefault()
-
         // Arrow down or Tab, next result
         if (e.keyCode === 40 || e.keyCode === 9) {
+            e.preventDefault()
             // Only go to next result if the current focused selection is not higher than total length of results
             if (state.focused < state.results.length - 1) {
                 setState({ ...state, focused: state.focused + 1 })
@@ -104,12 +104,21 @@ export function LocationLookup(props: Partial<Props>) {
         }
         // Arrow up, previous result
         if (e.keyCode === 38) {
+            e.preventDefault()
             // Only go to previous result if the current selection is not -1
             if (state.focused > 0) {
                 setState({ ...state, focused: state.focused - 1 })
             }
         }
-        console.log(state)
+        // Enter, select result
+        if (e.keyCode === 13) {
+            e.preventDefault()
+            selectSuggestion(state.results[state.focused].weergavenaam)
+        }
+    }
+
+    function handleMouseOver(e, index) {
+        setState({ ...state, focused: index })
     }
 
     const paddingValue = paddingPerSide
@@ -134,9 +143,9 @@ export function LocationLookup(props: Partial<Props>) {
                 ref={input}
                 padding={paddingValue}
                 backgroundColor={backgroundColor}
+                color={color}
                 fontSize={fontSize}
-                // borderRadius={borderRadius}
-                // searchColor={searchColor}
+                borderRadius={borderRadius}
                 onKeyDown={e => handleKeyDown(e)}
             />
             <ResultList
@@ -144,24 +153,24 @@ export function LocationLookup(props: Partial<Props>) {
                 visibility={state.results.length > 0 ? "visible" : "hidden"}
                 fontSize={fontSize}
                 // marginTop={resultSpacing}
-                // borderRadius={borderRadius}
+                borderRadius={borderRadius}
                 backgroundColor={backgroundColor}
-                // resultColor={resultColor}
+                resultColor={resultColor}
                 selectColor={selectColor}
-                // selectBackground={selectBackground}
-                // height={resultLength * 64 + 16}
+                selectBackground={selectBackground}
             >
                 {state.results.map((result, index) => (
                     <li key={index}>
                         <a
                             href=""
-                            onClick={e =>
-                                selectSuggestion(e, result.weergavenaam)
-                            }
+                            onClick={e => {
+                                e.preventDefault()
+                                selectSuggestion(result.weergavenaam)
+                            }}
                             className={
                                 index === state.focused ? "isFocused" : ""
                             }
-                            // onMouseOver={e => this.handleOnFocus(e, index)}
+                            onMouseOver={e => handleMouseOver(e, index)}
                         >
                             <p>
                                 <strong>{result.weergavenaam}</strong>
@@ -184,8 +193,12 @@ LocationLookup.defaultProps = {
     paddingRight: 16,
     paddingBottom: 16,
     paddingLeft: 56,
+    borderRadius: 4,
     backgroundColor: "#FFF",
+    color: "#333",
+    resultColor: "#333",
     selectColor: "#1199EE",
+    selectBackground: "rgba(0,0,0,0.05)",
     initialValue: "Amsterdam",
     placeholder: "Zoek op plaats, buurt of adres",
     type: "any",
@@ -193,9 +206,18 @@ LocationLookup.defaultProps = {
 }
 
 addPropertyControls(LocationLookup, {
+    initialValue: { type: ControlType.String, title: "Initial value" },
     type: {
         type: ControlType.Enum,
         options: ["any", "woonplaats", "adres", "postcode", "buurt", "wijk"],
+        optionTitles: [
+            "Any",
+            "Woonplaats",
+            "Adres",
+            "Postcode",
+            "Buurt",
+            "Wijk",
+        ],
         title: "Type",
     },
     fontSize: { type: ControlType.Number, title: "Font Size" },
@@ -226,7 +248,7 @@ const SearchInput = styled.input`
   font-size: ${props => props.fontSize}px;
   line-height: 1.5;
   border-radius: ${props => props.borderRadius}px;
-  color: ${props => props.searchColor};
+  color: ${props => props.color};
   outline: none;    
   -webkit-appearance: none;
   -moz-appearance: none;

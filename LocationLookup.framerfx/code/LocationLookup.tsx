@@ -21,6 +21,7 @@ type Props = Partial<FrameProps> & {
     initialValue: string
     type: string
     fontSize: number
+    maxAmount: number
     onSelect: (value: any) => void
 }
 
@@ -44,6 +45,7 @@ export function LocationLookup(props: Partial<Props>) {
         placeholder,
         type,
         fontSize,
+        maxAmount,
         onSelect,
     } = props
     const input = React.useRef<HTMLInputElement>()
@@ -51,6 +53,8 @@ export function LocationLookup(props: Partial<Props>) {
         results: [],
         focused: -1,
         selection: "",
+        value: "",
+        type: "any",
     })
 
     // Fetch data from PDOK
@@ -58,7 +62,7 @@ export function LocationLookup(props: Partial<Props>) {
 
     function fetchPDOK(value) {
         let typeString = type === "any" ? "" : `&fq=type:${type}`
-        let url = `https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?rows=5${typeString}&q=${value}`
+        let url = `https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?rows=${maxAmount}${typeString}&q=${value}`
         fetch(url).then(response => {
             response.json().then(data => {
                 if (value.length > 1) {
@@ -73,12 +77,13 @@ export function LocationLookup(props: Partial<Props>) {
     React.useEffect(() => {
         if (isMounted) {
             input.current.value = initialValue
+            setState({ ...state, value: initialValue, type: type })
             fetchPDOK(initialValue)
         }
         return () => {
             isMounted = false
         }
-    }, [])
+    }, [initialValue, type])
 
     function handleChange(e) {
         if (isMounted) {
@@ -128,11 +133,9 @@ export function LocationLookup(props: Partial<Props>) {
     return (
         <Frame
             width={width}
+            height={height}
             overflow={"visible"}
-            style={{
-                backgroundColor: "transparent",
-                overflow: "visible",
-            }}
+            backgroundColor={"transparent"}
         >
             <SearchInput
                 type="text"
@@ -186,7 +189,7 @@ export function LocationLookup(props: Partial<Props>) {
 
 LocationLookup.defaultProps = {
     width: 320,
-    height: 44,
+    height: 56,
     padding: 16,
     paddingPerSide: true,
     paddingTop: 16,
@@ -194,6 +197,7 @@ LocationLookup.defaultProps = {
     paddingBottom: 16,
     paddingLeft: 56,
     borderRadius: 4,
+    searchColor: "#333",
     backgroundColor: "#FFF",
     color: "#333",
     resultColor: "#333",
@@ -203,10 +207,12 @@ LocationLookup.defaultProps = {
     placeholder: "Zoek op plaats, buurt of adres",
     type: "any",
     fontSize: 16,
+    maxAmount: 5,
 }
 
 addPropertyControls(LocationLookup, {
     initialValue: { type: ControlType.String, title: "Initial value" },
+    placeholder: { type: ControlType.String, title: "Placeholder" },
     type: {
         type: ControlType.Enum,
         options: ["any", "woonplaats", "adres", "postcode", "buurt", "wijk"],
@@ -220,7 +226,24 @@ addPropertyControls(LocationLookup, {
         ],
         title: "Type",
     },
-    fontSize: { type: ControlType.Number, title: "Font Size" },
+    maxAmount: {
+        type: ControlType.Number,
+        defaultValue: 5,
+        min: 1,
+        max: 20,
+        step: 1,
+        displayStepper: true,
+        title: "Max amount of results",
+    },
+    fontSize: {
+        type: ControlType.Number,
+        defaultValue: 16,
+        min: 8,
+        max: 56,
+        step: 1,
+        displayStepper: true,
+        title: "Font Size",
+    },
     padding: {
         type: ControlType.FusedNumber,
         toggleKey: "paddingPerSide",
@@ -235,7 +258,12 @@ addPropertyControls(LocationLookup, {
         min: 0,
         title: "Input padding",
     },
+    borderRadius: { type: ControlType.Number, title: "Border Radius" },
+    color: { type: ControlType.Color, title: "Search Color" },
     backgroundColor: { type: ControlType.Color, title: "Background Color" },
+    resultColor: { type: ControlType.Color, title: "Result Color" },
+    selectColor: { type: ControlType.Color, title: "Select Color" },
+    selectBackground: { type: ControlType.Color, title: "Select Background" },
 })
 
 const SearchInput = styled.input`

@@ -21,6 +21,115 @@
             "centerAnchorY" : 0.20333333333333334,
             "children" : [
               {
+                "__class" : "CodeComponentNode",
+                "aspectRatio" : null,
+                "bottom" : 0,
+                "centerAnchorX" : 0.5,
+                "centerAnchorY" : 0.5,
+                "children" : [
+
+                ],
+                "clip" : true,
+                "codeComponentIdentifier" : ".\/LocationLookup.tsx_LocationLookup",
+                "codeComponentProps" : {
+                  "backgroundColor" : "#FFF",
+                  "borderRadius" : 4,
+                  "color" : "#333",
+                  "fontSize" : 16,
+                  "initialValue" : "Haarlem",
+                  "maxAmount" : 5,
+                  "padding" : 16,
+                  "paddingBottom" : 16,
+                  "paddingLeft" : 56,
+                  "paddingPerSide" : true,
+                  "paddingRight" : 16,
+                  "paddingTop" : 16,
+                  "placeholder" : "Zoek op plaats, buurt of adres",
+                  "resultColor" : "#333",
+                  "selectBackground" : "rgba(0,0,0,0.05)",
+                  "selectColor" : "#1199EE",
+                  "type" : "any"
+                },
+                "codeOverrideEnabled" : true,
+                "codeOverrideFile" : ".\/InputOverrides.tsx",
+                "codeOverrideIdentifier" : ".\/InputOverrides.tsx_selectQuery",
+                "codeOverrideName" : "selectQuery",
+                "constraintsLocked" : false,
+                "deviceType" : null,
+                "exportOptions" : [
+
+                ],
+                "fillColor" : "rgba(255,255,255,1)",
+                "fillEnabled" : false,
+                "fillImage" : null,
+                "fillImagePixelHeight" : null,
+                "fillImagePixelWidth" : null,
+                "fillImageResize" : "fill",
+                "fillLinearGradient" : {
+                  "__class" : "LinearGradient",
+                  "alpha" : 1,
+                  "angle" : 180,
+                  "stops" : [
+                    {
+                      "__class" : "GradientColorStop",
+                      "position" : 0,
+                      "value" : "rgba(0,0,0,0)"
+                    },
+                    {
+                      "__class" : "GradientColorStop",
+                      "position" : 1,
+                      "value" : "black"
+                    }
+                  ]
+                },
+                "fillRadialGradient" : {
+                  "__class" : "RadialGradient",
+                  "alpha" : 1,
+                  "centerAnchorX" : 0.5,
+                  "centerAnchorY" : 0.5,
+                  "heightFactor" : 0.5,
+                  "stops" : [
+                    {
+                      "__class" : "GradientColorStop",
+                      "position" : 0,
+                      "value" : "rgba(0,0,0,0)"
+                    },
+                    {
+                      "__class" : "GradientColorStop",
+                      "position" : 1,
+                      "value" : "black"
+                    }
+                  ],
+                  "widthFactor" : 0.5
+                },
+                "fillType" : "color",
+                "height" : 56,
+                "heightType" : 0,
+                "id" : "wDldCs1HH",
+                "intrinsicHeight" : 56,
+                "intrinsicWidth" : 320,
+                "left" : 0,
+                "locked" : false,
+                "name" : null,
+                "opacity" : 1,
+                "originalid" : null,
+                "parentid" : "HSrCgvjbS",
+                "previewSettings" : null,
+                "radius" : 0,
+                "radiusBottomLeft" : 0,
+                "radiusBottomRight" : 0,
+                "radiusIsRelative" : false,
+                "radiusPerCorner" : false,
+                "radiusTopLeft" : 0,
+                "radiusTopRight" : 0,
+                "right" : 0,
+                "rotation" : 0,
+                "top" : 0,
+                "visible" : true,
+                "width" : 480,
+                "widthType" : 0
+              },
+              {
                 "__class" : "FrameNode",
                 "aspectRatio" : 1,
                 "blendingEnabled" : 0,
@@ -165,108 +274,6 @@
                 "top" : null,
                 "visible" : true,
                 "width" : 24,
-                "widthType" : 0
-              },
-              {
-                "__class" : "CodeComponentNode",
-                "aspectRatio" : null,
-                "bottom" : 0,
-                "centerAnchorX" : 0.5,
-                "centerAnchorY" : 0.5,
-                "children" : [
-
-                ],
-                "clip" : true,
-                "codeComponentIdentifier" : ".\/LocationLookup.tsx_LocationLookup",
-                "codeComponentProps" : {
-                  "backgroundColor" : "#FFF",
-                  "fontSize" : 16,
-                  "initialValue" : "Almere",
-                  "padding" : 16,
-                  "paddingBottom" : 16,
-                  "paddingLeft" : 56,
-                  "paddingPerSide" : true,
-                  "paddingRight" : 16,
-                  "paddingTop" : 16,
-                  "type" : "adres"
-                },
-                "codeOverrideEnabled" : true,
-                "codeOverrideFile" : ".\/InputOverrides.tsx",
-                "codeOverrideIdentifier" : ".\/InputOverrides.tsx_selectQuery",
-                "codeOverrideName" : "selectQuery",
-                "constraintsLocked" : false,
-                "deviceType" : null,
-                "exportOptions" : [
-
-                ],
-                "fillColor" : "rgba(255,255,255,1)",
-                "fillEnabled" : false,
-                "fillImage" : null,
-                "fillImagePixelHeight" : null,
-                "fillImagePixelWidth" : null,
-                "fillImageResize" : "fill",
-                "fillLinearGradient" : {
-                  "__class" : "LinearGradient",
-                  "alpha" : 1,
-                  "angle" : 180,
-                  "stops" : [
-                    {
-                      "__class" : "GradientColorStop",
-                      "position" : 0,
-                      "value" : "rgba(0,0,0,0)"
-                    },
-                    {
-                      "__class" : "GradientColorStop",
-                      "position" : 1,
-                      "value" : "black"
-                    }
-                  ]
-                },
-                "fillRadialGradient" : {
-                  "__class" : "RadialGradient",
-                  "alpha" : 1,
-                  "centerAnchorX" : 0.5,
-                  "centerAnchorY" : 0.5,
-                  "heightFactor" : 0.5,
-                  "stops" : [
-                    {
-                      "__class" : "GradientColorStop",
-                      "position" : 0,
-                      "value" : "rgba(0,0,0,0)"
-                    },
-                    {
-                      "__class" : "GradientColorStop",
-                      "position" : 1,
-                      "value" : "black"
-                    }
-                  ],
-                  "widthFactor" : 0.5
-                },
-                "fillType" : "color",
-                "height" : 56,
-                "heightType" : 0,
-                "id" : "wDldCs1HH",
-                "intrinsicHeight" : 56,
-                "intrinsicWidth" : 320,
-                "left" : 0,
-                "locked" : false,
-                "name" : null,
-                "opacity" : 1,
-                "originalid" : null,
-                "parentid" : "HSrCgvjbS",
-                "previewSettings" : null,
-                "radius" : 0,
-                "radiusBottomLeft" : 0,
-                "radiusBottomRight" : 0,
-                "radiusIsRelative" : false,
-                "radiusPerCorner" : false,
-                "radiusTopLeft" : 0,
-                "radiusTopRight" : 0,
-                "right" : 0,
-                "rotation" : 0,
-                "top" : 0,
-                "visible" : true,
-                "width" : 480,
                 "widthType" : 0
               }
             ],

@@ -22,7 +22,6 @@ type Props = Partial<FrameProps> & {
     type: string
     fontSize: number
     maxAmount: number
-    onSelect: (value: any) => any
 }
 
 export function LocationLookup(props: Partial<Props>) {
@@ -56,7 +55,7 @@ export function LocationLookup(props: Partial<Props>) {
         type: "any",
     })
 
-    // Fetch data from PDOK
+    // Fetch data from PDOKlmerelmere
     let isMounted = true
 
     function fetchPDOK(value) {
@@ -85,6 +84,7 @@ export function LocationLookup(props: Partial<Props>) {
     }, [initialValue, type])
 
     function handleChange(e) {
+        e.persist()
         if (isMounted) {
             fetchPDOK(e.target.value)
         }
@@ -94,10 +94,10 @@ export function LocationLookup(props: Partial<Props>) {
         setState({ ...state, results: [], selection })
         input.current.value = selection
         input.current.focus()
-        props.onSelect(selection)
     }
 
     function handleKeyDown(e) {
+        e.persist()
         // Arrow down or Tab, next result
         if (e.keyCode === 40 || e.keyCode === 9) {
             e.preventDefault()
@@ -131,6 +131,7 @@ export function LocationLookup(props: Partial<Props>) {
 
     return (
         <Frame
+            center
             width={width}
             height={height}
             overflow={"visible"}

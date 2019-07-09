@@ -36,8 +36,7 @@
                   "borderRadius" : 4,
                   "color" : "#333",
                   "fontSize" : 16,
-                  "initialSelection" : 1,
-                  "initialValue" : "Almere",
+                  "initialValue" : "Amsterdam",
                   "maxAmount" : 5,
                   "padding" : 16,
                   "paddingBottom" : 16,
@@ -47,8 +46,8 @@
                   "paddingTop" : 16,
                   "placeholder" : "Zoek op plaats, buurt of adres",
                   "resultColor" : "#333",
-                  "selectBackground" : "rgba(0, 0, 0, 0.05)",
-                  "selectColor" : "hsl(203, 100%, 50%)",
+                  "selectBackground" : "rgba(0,0,0,0.05)",
+                  "selectColor" : "#1199EE",
                   "type" : "any"
                 },
                 "codeOverrideEnabled" : false,
@@ -63,47 +62,10 @@
                 "fillImagePixelHeight" : null,
                 "fillImagePixelWidth" : null,
                 "fillImageResize" : "fill",
-                "fillLinearGradient" : {
-                  "__class" : "LinearGradient",
-                  "alpha" : 1,
-                  "angle" : 180,
-                  "stops" : [
-                    {
-                      "__class" : "GradientColorStop",
-                      "position" : 0,
-                      "value" : "rgba(0,0,0,0)"
-                    },
-                    {
-                      "__class" : "GradientColorStop",
-                      "position" : 1,
-                      "value" : "black"
-                    }
-                  ]
-                },
-                "fillRadialGradient" : {
-                  "__class" : "RadialGradient",
-                  "alpha" : 1,
-                  "centerAnchorX" : 0.5,
-                  "centerAnchorY" : 0.5,
-                  "heightFactor" : 0.5,
-                  "stops" : [
-                    {
-                      "__class" : "GradientColorStop",
-                      "position" : 0,
-                      "value" : "rgba(0,0,0,0)"
-                    },
-                    {
-                      "__class" : "GradientColorStop",
-                      "position" : 1,
-                      "value" : "black"
-                    }
-                  ],
-                  "widthFactor" : 0.5
-                },
                 "fillType" : "color",
                 "height" : 56,
                 "heightType" : 0,
-                "id" : "wDldCs1HH",
+                "id" : "fTJFBtwJ6",
                 "intrinsicHeight" : 56,
                 "intrinsicWidth" : 320,
                 "left" : 0,

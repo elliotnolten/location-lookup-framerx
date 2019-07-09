@@ -3,25 +3,30 @@ Use this component if you need to look up a location (Duch locations only). Look
 
 There are few things to customize.
 
-|Property|Type|
-|--------|----|
-|Value|String|
-|Placeholder|String|
-|Padding|Fused|
-|Search Color|Color|
-|Result Color|Color|
-|Select Color|Color|
-|Select Background|Color|
-|Font Size|Number|
-|Radius|Number|
-|Max amount|Number|
+|Property|Type|Default value|
+|--------|----|-------|
+|Initial value|String|"Amsterdam"|
+|Placeholder|String|"Zoek op plaats, buurt, adres, etc."|
+|Max amount|Number|5|
+|Font Size|Number|16|
+|Input padding|Fused|16px 16px 16px 56px|
+|Border radius|Number|4|
+|Search color|Color|#333|
+|Background color|Color|#FFF|
+|Result color|Color|#333|
+|Select color|Color|#1199EE|
+|Select background|Color|rgba(0,0,0,0.5)|
 
 This package uses open source data from [PDOK](https://mijn.pdok.nl/nl/producten/pdok-locatieserver) (Publieke Dienstverlening Op de Kaart). Which is an initiative of several Dutch ministries and aims to make Dutch geodata publicly available.
 
 ## Changelog
+### v.1.4.0
+* Fully refactored to functional component and new Framer API.
+
+### v1.3.0
+* Improved keyboard navigation. Going through the results with your arrow keys now updates the value in the search field.
+
 ### v1.2.0
 * Added keyboard navigation to go through results.
 * Added Value and Placeholder to custom properties.
 * You can set a custom maximum amount of results.
-### v1.3.0
-* Improved keyboard navigation. Going through the results with your arrow keys now updates the value in the search field.

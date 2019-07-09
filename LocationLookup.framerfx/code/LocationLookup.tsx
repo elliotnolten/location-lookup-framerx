@@ -22,7 +22,7 @@ type Props = Partial<FrameProps> & {
     type: string
     fontSize: number
     maxAmount: number
-    onSelect: (value: any) => void
+    onSelect: (value: any) => any
 }
 
 export function LocationLookup(props: Partial<Props>) {
@@ -46,7 +46,6 @@ export function LocationLookup(props: Partial<Props>) {
         type,
         fontSize,
         maxAmount,
-        onSelect,
     } = props
     const input = React.useRef<HTMLInputElement>()
     const [state, setState] = React.useState({
@@ -95,7 +94,7 @@ export function LocationLookup(props: Partial<Props>) {
         setState({ ...state, results: [], selection })
         input.current.value = selection
         input.current.focus()
-        // onSelect(selection)
+        props.onSelect(selection)
     }
 
     function handleKeyDown(e) {
@@ -258,12 +257,12 @@ addPropertyControls(LocationLookup, {
         min: 0,
         title: "Input padding",
     },
-    borderRadius: { type: ControlType.Number, title: "Border Radius" },
-    color: { type: ControlType.Color, title: "Search Color" },
-    backgroundColor: { type: ControlType.Color, title: "Background Color" },
-    resultColor: { type: ControlType.Color, title: "Result Color" },
-    selectColor: { type: ControlType.Color, title: "Select Color" },
-    selectBackground: { type: ControlType.Color, title: "Select Background" },
+    borderRadius: { type: ControlType.Number, title: "Border radius" },
+    color: { type: ControlType.Color, title: "Search color" },
+    backgroundColor: { type: ControlType.Color, title: "Background color" },
+    resultColor: { type: ControlType.Color, title: "Result color" },
+    selectColor: { type: ControlType.Color, title: "Select color" },
+    selectBackground: { type: ControlType.Color, title: "Select background" },
 })
 
 const SearchInput = styled.input`

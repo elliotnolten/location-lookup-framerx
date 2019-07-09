@@ -154,7 +154,6 @@ export function LocationLookup(props: Partial<Props>) {
                 opacity={state.results.length > 0 ? 1 : 0}
                 visibility={state.results.length > 0 ? "visible" : "hidden"}
                 fontSize={fontSize}
-                // marginTop={resultSpacing}
                 borderRadius={borderRadius}
                 backgroundColor={backgroundColor}
                 resultColor={resultColor}

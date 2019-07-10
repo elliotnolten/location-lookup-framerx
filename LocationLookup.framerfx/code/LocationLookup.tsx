@@ -22,6 +22,7 @@ type Props = Partial<FrameProps> & {
     type: string
     fontSize: number
     maxAmount: number
+    onSelect: (selection: string) => any
 }
 
 export function LocationLookup(props: Partial<Props>) {
@@ -94,6 +95,7 @@ export function LocationLookup(props: Partial<Props>) {
         setState({ ...state, results: [], selection })
         input.current.value = selection
         input.current.focus()
+        props.onSelect(selection)
     }
 
     function handleKeyDown(e) {
@@ -207,6 +209,7 @@ LocationLookup.defaultProps = {
     type: "any",
     fontSize: 16,
     maxAmount: 5,
+    onSelect: () => null,
 }
 
 addPropertyControls(LocationLookup, {

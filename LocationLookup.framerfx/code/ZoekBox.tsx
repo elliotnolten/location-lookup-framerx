@@ -55,7 +55,7 @@ export function ZoekBox(props) {
                 type: "koop",
             },
             success: response => {
-                setState({ ...state, results: response.Results, query: query })
+                setState({ ...state, results: response.Results })
             },
         })
     }
@@ -66,12 +66,18 @@ export function ZoekBox(props) {
     function handleChange(event) {
         event.persist()
         if (isMounted) {
+            setState({ ...state, query: event.target.value })
             fetchData(event.target.value)
         }
     }
 
+    function handleMouseOver(event, index, resultName) {
+        console.log(resultName)
+    }
+
     function clearInput() {
         input.current.value = ""
+        input.current.focus()
         setState({ ...state, results: [], query: "" })
     }
 
@@ -91,12 +97,15 @@ export function ZoekBox(props) {
                     onChange={handleChange}
                     ref={input}
                     padding={paddingValue}
+                    placeholder={"Plaats, buurt, adres, etc."}
                 />
                 <ClearQuery
                     onClick={clearInput}
                     style={{
                         visibility:
-                            state.results.length > 0 ? "visible" : "hidden",
+                            state.results.length > 0 || state.query.length > 0
+                                ? "visible"
+                                : "hidden",
                     }}
                 >
                     <svg
@@ -111,20 +120,37 @@ export function ZoekBox(props) {
                     </svg>
                 </ClearQuery>
             </SearchBox>
+            <Search_None
+                width={width}
+                visible={
+                    state.results.length === 0 && state.query.length > 0
+                        ? true
+                        : false
+                }
+            />
             <Results>
                 {state.results.map((result, index) => {
                     const NiveauLabel = result.Display.NiveauLabel
-                    const Count = result.Aantal > 0 ? result.Aantal : null
                     const City = result.Display.Parent
                     const SubText = `${NiveauLabel}${
                         City === null ? "" : ", " + City
                     }`
+                    const Count = result.Aantal.toString()
                     return (
-                        <ListItem key={index}>
+                        <ListItem
+                            key={index}
+                            onMouseOver={e =>
+                                handleMouseOver(
+                                    event,
+                                    index,
+                                    result.Display.Naam
+                                )
+                            }
+                        >
                             <Search_Suggestion
                                 Name={result.Display.Naam}
                                 Info={SubText}
-                                Count={result.Aantal.toString()}
+                                Count={Count}
                             />
                         </ListItem>
                     )
@@ -215,13 +241,14 @@ const ListItem = styled.li`
     list-style: none;
     display: block;
     position: relative;
-    height: 60px;
+    height: 56px;
     border-left: 1px solid #CCC;
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #EEE;
     overflow: hidden;
     background-color: #FFF;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
+    cursor: pointer;
     &:last-child {
         border-radius: 0 0 2px 2px;
         border-bottom-color: #CCC;

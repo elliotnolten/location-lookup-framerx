@@ -11,7 +11,7 @@ type Props = Partial<FrameProps> & {
     paddingRight: number
     paddingBottom: number
     paddingLeft: number
-    onSelect: (selection: string) => any
+    onSelect: (name: string, parent: string, type: string) => any
 }
 
 export function ZoekBox(props) {
@@ -24,6 +24,7 @@ export function ZoekBox(props) {
         paddingRight,
         paddingBottom,
         paddingLeft,
+        onSelect,
     } = props
     const [state, setState] = React.useState({
         results: [],
@@ -71,14 +72,21 @@ export function ZoekBox(props) {
         }
     }
 
-    function handleMouseOver(event, index, resultName) {
-        console.log(resultName)
+    function handleMouseOver(event, index, resultName) {}
+
+    function handleClick(index, resultName, resultType, resultParent) {
+        console.log(index, resultName, resultType, resultParent)
+        onSelect(resultName, resultParent, resultType)
     }
 
     function clearInput() {
         input.current.value = ""
         input.current.focus()
         setState({ ...state, results: [], query: "" })
+    }
+
+    function Thousands(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     }
 
     const paddingValue = paddingPerSide
@@ -108,11 +116,7 @@ export function ZoekBox(props) {
                                 : "hidden",
                     }}
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
-                    >
+                    <svg width="18" height="18">
                         <path
                             d="M15.174 2.636A9.058 9.058 0 0 1 17.778 9c0 4.971-3.98 9-8.889 9C3.98 18 0 13.971 0 9s3.98-9 8.889-9c2.357 0 4.618.948 6.285 2.636zM9.831 9l3.613-3.659a.68.68 0 0 0-.016-.937.66.66 0 0 0-.926-.016L8.889 8.046 5.276 4.388a.66.66 0 0 0-.926.016.681.681 0 0 0-.017.937L7.947 9l-3.614 3.658a.683.683 0 0 0-.191.661.662.662 0 1 0 1.134.293l3.613-3.658 3.613 3.658a.661.661 0 0 0 .653.194.67.67 0 0 0 .481-.487.68.68 0 0 0-.192-.661z"
                             fill="#666"
@@ -130,15 +134,20 @@ export function ZoekBox(props) {
             />
             <Results>
                 {state.results.map((result, index) => {
+                    const Name = result.Display.Naam
                     const NiveauLabel = result.Display.NiveauLabel
                     const City = result.Display.Parent
                     const SubText = `${NiveauLabel}${
                         City === null ? "" : ", " + City
                     }`
-                    const Count = result.Aantal.toString()
+                    const Count = Thousands(result.Aantal).toString()
                     return (
                         <ListItem
                             key={index}
+                            onClick={event => {
+                                event.preventDefault()
+                                handleClick(index, Name, NiveauLabel, City)
+                            }}
                             onMouseOver={e =>
                                 handleMouseOver(
                                     event,
@@ -148,7 +157,7 @@ export function ZoekBox(props) {
                             }
                         >
                             <Search_Suggestion
-                                Name={result.Display.Naam}
+                                Name={Name}
                                 Info={SubText}
                                 Count={Count}
                             />

@@ -10455,9 +10455,7 @@
             "top" : null,
             "visible" : true,
             "width" : 49,
-            "widthType" : 0,
-            "x" : 292,
-            "y" : 30
+            "widthType" : 0
           },
           {
             "__class" : "TextNode",
@@ -10556,9 +10554,9 @@
                 "os" : "10_14",
                 "size" : {
                   "height" : 19,
-                  "width" : 202
+                  "width" : 208
                 },
-                "width" : 201
+                "width" : 207
               },
               "entityMap" : {
 
@@ -10666,9 +10664,9 @@
                 "os" : "10_14",
                 "size" : {
                   "height" : 24,
-                  "width" : 202
+                  "width" : 208
                 },
-                "width" : 201
+                "width" : 207
               },
               "entityMap" : {
 

@@ -2,7 +2,7 @@ import * as React from "react"
 import { Frame, FrameProps, ControlType, addPropertyControls } from "framer"
 import * as $ from "jquery"
 import styled from "styled-components"
-import { Search_Suggestion, Search_None } from "./canvas"
+import { ZoekBox_Suggestion, ZoekBox_None } from "./canvas"
 
 type Props = Partial<FrameProps> & {
     padding: number
@@ -11,10 +11,11 @@ type Props = Partial<FrameProps> & {
     paddingRight: number
     paddingBottom: number
     paddingLeft: number
-    onSelect: (name: string, parent: string, type: string) => any
+    onChange: (query: string, results: any) => void
+    onSelect: (name: string, parent: string, type: string, count: number) => any
 }
 
-export function ZoekBox(props) {
+export function ZoekBoxInput(props) {
     const {
         width,
         height,
@@ -24,26 +25,24 @@ export function ZoekBox(props) {
         paddingRight,
         paddingBottom,
         paddingLeft,
+        onChange,
         onSelect,
     } = props
     const [state, setState] = React.useState({
         results: [],
         focused: -1,
         selection: "",
-        query: "",
         type: "any",
     })
 
     const zbURL = "https://zb.funda.info/frontend/geo/suggest/"
-    let isMounted = true
+    // let isMounted = true
 
-    React.useEffect(() => {
-        if (isMounted) {
-        }
-        return () => {
-            isMounted = false
-        }
-    }, [])
+    // React.useEffect(() => {
+    //     return () => {
+    //         isMounted = false
+    //     }
+    // }, [])
 
     function fetchData(query) {
         $.ajax({
@@ -56,7 +55,7 @@ export function ZoekBox(props) {
                 type: "koop",
             },
             success: response => {
-                setState({ ...state, results: response.Results })
+                onChange(query, response.Results)
             },
         })
     }
@@ -66,27 +65,15 @@ export function ZoekBox(props) {
 
     function handleChange(event) {
         event.persist()
-        if (isMounted) {
-            setState({ ...state, query: event.target.value })
-            fetchData(event.target.value)
-        }
-    }
-
-    function handleMouseOver(event, index, resultName) {}
-
-    function handleClick(index, resultName, resultType, resultParent) {
-        console.log(index, resultName, resultType, resultParent)
-        onSelect(resultName, resultParent, resultType)
+        const value = event.target.value
+        fetchData(value)
     }
 
     function clearInput() {
         input.current.value = ""
         input.current.focus()
-        setState({ ...state, results: [], query: "" })
-    }
-
-    function Thousands(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        // setState({ ...state, results: [] })
+        onChange([], "")
     }
 
     const paddingValue = paddingPerSide
@@ -100,7 +87,7 @@ export function ZoekBox(props) {
             height={height}
             backgroundColor={"transparent"}
         >
-            <SearchBox>
+            <ZoekBox>
                 <Input
                     onChange={handleChange}
                     ref={input}
@@ -111,9 +98,7 @@ export function ZoekBox(props) {
                     onClick={clearInput}
                     style={{
                         visibility:
-                            state.results.length > 0 || state.query.length > 0
-                                ? "visible"
-                                : "hidden",
+                            state.results.length > 0 ? "visible" : "hidden",
                     }}
                 >
                     <svg width="18" height="18">
@@ -123,53 +108,12 @@ export function ZoekBox(props) {
                         />
                     </svg>
                 </ClearQuery>
-            </SearchBox>
-            <Search_None
-                width={width}
-                visible={
-                    state.results.length === 0 && state.query.length > 0
-                        ? true
-                        : false
-                }
-            />
-            <Results>
-                {state.results.map((result, index) => {
-                    const Name = result.Display.Naam
-                    const NiveauLabel = result.Display.NiveauLabel
-                    const City = result.Display.Parent
-                    const SubText = `${NiveauLabel}${
-                        City === null ? "" : ", " + City
-                    }`
-                    const Count = Thousands(result.Aantal).toString()
-                    return (
-                        <ListItem
-                            key={index}
-                            onClick={event => {
-                                event.preventDefault()
-                                handleClick(index, Name, NiveauLabel, City)
-                            }}
-                            onMouseOver={e =>
-                                handleMouseOver(
-                                    event,
-                                    index,
-                                    result.Display.Naam
-                                )
-                            }
-                        >
-                            <Search_Suggestion
-                                Name={Name}
-                                Info={SubText}
-                                Count={Count}
-                            />
-                        </ListItem>
-                    )
-                })}
-            </Results>
+            </ZoekBox>
         </Frame>
     )
 }
 
-addPropertyControls(ZoekBox, {
+addPropertyControls(ZoekBoxInput, {
     padding: {
         type: ControlType.FusedNumber,
         toggleKey: "paddingPerSide",
@@ -186,7 +130,7 @@ addPropertyControls(ZoekBox, {
     },
 })
 
-ZoekBox.defaultProps = {
+ZoekBoxInput.defaultProps = {
     width: 320,
     height: 44,
     padding: 16,
@@ -195,10 +139,11 @@ ZoekBox.defaultProps = {
     paddingRight: 16,
     paddingBottom: 11,
     paddingLeft: 16,
+    onChange: () => null,
     onSelect: () => null,
 }
 
-const SearchBox = styled.div`
+const ZoekBox = styled.div`
     width: 100%;
     height: 100%;
     position: relative;
@@ -207,7 +152,8 @@ const SearchBox = styled.div`
 const Input = styled.input`
     width: 100%;
     height: 100%;
-    border: 1px solid #FFF;
+    border: none;
+    outline: none;
     padding: ${props => props.padding};
     font-size: 16px;
     font-family: "Proxima Nova";
@@ -238,39 +184,5 @@ const ClearQuery = styled.div`
     svg {
         position: absolute;
         top: 13px; left: 13px;
-    }
-`
-const Results = styled.ul`
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-`
-const ListItem = styled.li`
-    list-style: none;
-    display: block;
-    position: relative;
-    height: 56px;
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-    border-bottom: 1px solid #EEE;
-    overflow: hidden;
-    background-color: #FFF;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    cursor: pointer;
-    &:last-child {
-        border-radius: 0 0 2px 2px;
-        border-bottom-color: #CCC;
-    }
-    &:active {
-        background-color: rgba(255,255,255,0.5);
-    }
-    &:hover {
-        background-color: #E6F2F7;
-    }
-    &* {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
 `

@@ -95,7 +95,9 @@ export function LocationLookup(props: Partial<Props>) {
         setState({ ...state, results: [], selection })
         input.current.value = selection
         input.current.focus()
-        props.onSelect(selection)
+        if (props.onSelect) {
+            props.onSelect(selection)
+        }
     }
 
     function handleKeyDown(e) {
@@ -109,7 +111,7 @@ export function LocationLookup(props: Partial<Props>) {
             }
         }
         // Arrow up, previous result
-        if (e.keyCode === 38) {
+        else if (e.keyCode === 38) {
             e.preventDefault()
             // Only go to previous result if the current selection is not -1
             if (state.focused > 0) {
@@ -117,13 +119,25 @@ export function LocationLookup(props: Partial<Props>) {
             }
         }
         // Enter, select result
-        if (e.keyCode === 13) {
+        else if (e.keyCode === 13) {
             e.preventDefault()
-            selectSuggestion(state.results[state.focused].weergavenaam)
+            // If there are results, select suggestion
+            if (state.results.length !== 0) {
+                selectSuggestion(state.results[state.focused].weergavenaam)
+            }
+        }
+        // Just typing
+        else {
+            setState({
+                ...state,
+                focused: -1,
+                selection: "",
+            })
         }
     }
 
     function handleMouseOver(e, index) {
+        e.persist()
         setState({ ...state, focused: index })
     }
 
@@ -169,6 +183,7 @@ export function LocationLookup(props: Partial<Props>) {
                             href=""
                             onClick={e => {
                                 e.preventDefault()
+                                e.persist()
                                 selectSuggestion(result.weergavenaam)
                             }}
                             className={

@@ -42,7 +42,19 @@ export const SearchSuggestions: Override = () => {
             count: number
         ) => {
             console.log(name, parent, type, count)
+            data.zbName = name
+            data.zbCity = parent
+            data.zbType = type
+            data.zbCount = count.toString()
         },
+    }
+}
+
+export function showResult(): Override {
+    return {
+        Name: data.zbName,
+        Count: data.zbCount,
+        City: data.zbCity,
     }
 }
 

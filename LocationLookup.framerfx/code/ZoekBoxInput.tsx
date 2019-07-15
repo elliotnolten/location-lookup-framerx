@@ -36,13 +36,6 @@ export function ZoekBoxInput(props) {
     })
 
     const zbURL = "https://zb.funda.info/frontend/geo/suggest/"
-    // let isMounted = true
-
-    // React.useEffect(() => {
-    //     return () => {
-    //         isMounted = false
-    //     }
-    // }, [])
 
     function fetchData(query) {
         $.ajax({
@@ -72,7 +65,6 @@ export function ZoekBoxInput(props) {
     function clearInput() {
         input.current.value = ""
         input.current.focus()
-        // setState({ ...state, results: [] })
         onChange([], "")
     }
 

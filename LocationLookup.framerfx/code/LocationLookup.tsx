@@ -19,7 +19,7 @@ type Props = Partial<FrameProps> & {
     selectColor: string
     selectBackground: string
     initialValue: string
-    type: string
+    initialType: string
     fontSize: number
     maxAmount: number
     onSelect: (selection: string) => any
@@ -43,102 +43,83 @@ export function LocationLookup(props: Partial<Props>) {
         initialValue,
         borderRadius,
         placeholder,
-        type,
+        initialType,
         fontSize,
         maxAmount,
     } = props
     const input = React.useRef<HTMLInputElement>()
-    const [state, setState] = React.useState({
-        results: [],
-        focused: -1,
-        selection: "",
-        value: "",
-        type: "any",
-    })
+    const [results, setResults] = React.useState([])
+    const [focused, setFocused] = React.useState(-1)
+    const [selection, setSelection] = React.useState("")
+    const [query, setQuery] = React.useState(initialValue)
+    const [type, setType] = React.useState(initialType)
 
     // Fetch data from PDOKlmerelmere
     let isMounted = true
 
-    function fetchPDOK(value) {
-        let typeString = type === "any" ? "" : `&fq=type:${type}`
-        let url = `https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?rows=${maxAmount}${typeString}&q=${value}`
-        fetch(url).then(response => {
-            response.json().then(data => {
-                if (value.length > 1) {
-                    setState({ ...state, results: data.response.docs })
-                } else {
-                    setState({ ...state, results: [] })
-                }
-            })
-        })
-    }
+    React.useEffect(() => {
+        input.current.value = initialValue
+        setQuery(initialValue)
+        setType(initialType)
+    }, [initialValue, initialType])
 
     React.useEffect(() => {
-        if (isMounted) {
-            input.current.value = initialValue
-            setState({ ...state, value: initialValue, type: type })
-            fetchPDOK(initialValue)
-        }
-        return () => {
-            isMounted = false
-        }
-    }, [initialValue, type])
+        let typeString = type === "any" ? "" : `&fq=type:${type}`
+        let url = `https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?rows=${maxAmount}${typeString}&q=${query}`
+        fetch(url).then(response => {
+            response.json().then(data => {
+                setResults(data.response.docs)
+            })
+        })
+    }, [query, type])
 
     function handleChange(e) {
-        e.persist()
-        if (isMounted) {
-            fetchPDOK(e.target.value)
-        }
+        setQuery(e.target.value)
     }
 
     function selectSuggestion(selection) {
-        setState({ ...state, results: [], selection })
+        setResults([])
+        setQuery("")
+        setSelection(selection)
         input.current.value = selection
         input.current.focus()
-        if (props.onSelect) {
-            props.onSelect(selection)
-        }
+        props.onSelect(selection)
     }
 
     function handleKeyDown(e) {
-        e.persist()
         // Arrow down or Tab, next result
         if (e.keyCode === 40 || e.keyCode === 9) {
             e.preventDefault()
             // Only go to next result if the current focused selection is not higher than total length of results
-            if (state.focused < state.results.length - 1) {
-                setState({ ...state, focused: state.focused + 1 })
+            if (focused < results.length - 1) {
+                setFocused(focused + 1)
             }
         }
         // Arrow up, previous result
         else if (e.keyCode === 38) {
             e.preventDefault()
             // Only go to previous result if the current selection is not -1
-            if (state.focused > 0) {
-                setState({ ...state, focused: state.focused - 1 })
+            if (focused > 0) {
+                setFocused(focused - 1)
             }
         }
         // Enter, select result
         else if (e.keyCode === 13) {
             e.preventDefault()
             // If there are results, select suggestion
-            if (state.results.length !== 0) {
-                selectSuggestion(state.results[state.focused].weergavenaam)
+            if (results.length !== 0) {
+                selectSuggestion(results[focused].weergavenaam)
             }
         }
         // Just typing
         else {
-            setState({
-                ...state,
-                focused: -1,
-                selection: "",
-            })
+            setFocused(-1)
+            setSelection("")
         }
     }
 
     function handleMouseOver(e, index) {
-        e.persist()
-        setState({ ...state, focused: index })
+        setFocused(index)
     }
 
     const paddingValue = paddingPerSide
@@ -168,8 +149,8 @@ export function LocationLookup(props: Partial<Props>) {
                 onKeyDown={e => handleKeyDown(e)}
             />
             <ResultList
-                opacity={state.results.length > 0 ? 1 : 0}
-                visibility={state.results.length > 0 ? "visible" : "hidden"}
+                opacity={query.length > 0 ? 1 : 0}
+                visibility={query.length > 0 ? "visible" : "hidden"}
                 fontSize={fontSize}
                 borderRadius={borderRadius}
                 backgroundColor={backgroundColor}
@@ -177,18 +158,15 @@ export function LocationLookup(props: Partial<Props>) {
                 selectColor={selectColor}
                 selectBackground={selectBackground}
             >
-                {state.results.map((result, index) => (
+                {results.map((result, index) => (
                     <li key={index}>
                         <a
                             href=""
                             onClick={e => {
                                 e.preventDefault()
-                                e.persist()
                                 selectSuggestion(result.weergavenaam)
                             }}
-                            className={
-                                index === state.focused ? "isFocused" : ""
-                            }
+                            className={index === focused ? "isFocused" : ""}
                             onMouseOver={e => handleMouseOver(e, index)}
                         >
                             <p>
@@ -221,7 +199,7 @@ LocationLookup.defaultProps = {
     selectBackground: "rgba(0,0,0,0.05)",
     initialValue: "Amsterdam",
     placeholder: "Zoek op plaats, buurt of adres",
-    type: "any",
+    initialType: "any",
     fontSize: 16,
     maxAmount: 5,
     onSelect: () => null,
@@ -230,7 +208,7 @@ LocationLookup.defaultProps = {
 addPropertyControls(LocationLookup, {
     initialValue: { type: ControlType.String, title: "Initial value" },
     placeholder: { type: ControlType.String, title: "Placeholder" },
-    type: {
+    initialType: {
         type: ControlType.Enum,
         options: ["any", "woonplaats", "adres", "postcode", "buurt", "wijk"],
         optionTitles: [

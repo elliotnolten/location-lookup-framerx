@@ -10,18 +10,6 @@ const data = Data({
     zbResults: [],
 })
 
-// export const SelectSuggestion: Override = () => {
-//     return {
-//         onSelect: (name: any, parent: any, type: any, count: any) => {
-//             console.log(name, parent, type, count)
-//             data.zbName = name
-//             data.zbType = type
-//             data.zbCity = parent
-//             data.zbCount = count.toString()
-//         },
-//     }
-// }
-
 export const SearchLocation: Override = () => {
     return {
         onChange: (query: string, results: any) => {
@@ -57,27 +45,3 @@ export function showResult(): Override {
         City: data.zbCity,
     }
 }
-
-// export function showResultZoekBox(): Override {
-//     return {
-//         Name: data.zbName,
-//         Type: data.zbType,
-//         City: data.zbCity,
-//         Count: data.zbCount,
-//     }
-// }
-
-// export const SelectPDOK: Override = () => {
-//     return {
-//         onSelect: (selection: string) => {
-//             console.log(selection)
-//             data.output = selection
-//         },
-//     }
-// }
-
-// export function showResultPDOK(): Override {
-//     return {
-//         text: data.output,
-//     }
-// }

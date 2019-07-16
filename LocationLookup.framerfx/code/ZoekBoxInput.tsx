@@ -11,61 +11,75 @@ type Props = Partial<FrameProps> & {
     paddingRight: number
     paddingBottom: number
     paddingLeft: number
-    onChange: (query: string, results: any) => void
-    onSelect: (name: string, parent: string, type: string, count: number) => any
+    customBackground: string
+    customTextColor: string
+    zbNiveau: string
+    zbType: string
+    onChange: (
+        query: string,
+        results: any,
+        niveau: string,
+        type: string
+    ) => void
 }
 
 export function ZoekBoxInput(props) {
     const {
         width,
         height,
+        initialValue,
         padding,
         paddingPerSide,
         paddingTop,
         paddingRight,
         paddingBottom,
         paddingLeft,
+        zbNiveau,
+        zbType,
+        zbParent,
         onChange,
         onSelect,
+        customBackground,
+        customTextColor,
     } = props
-    const [state, setState] = React.useState({
-        results: [],
-        focused: -1,
-        selection: "",
-        type: "any",
-    })
+
+    // Store the input's last value in a ref
+    const input = React.useRef<HTMLInputElement>()
+    const [query, setQuery] = React.useState(initialValue)
+
+    const niveau = zbNiveau === "any" ? null : zbNiveau
 
     const zbURL = "https://zb.funda.info/frontend/geo/suggest/"
 
-    function fetchData(query) {
+    let isMounted = true
+
+    React.useEffect(() => {
+        input.current.value = initialValue
+        setQuery(initialValue)
+    }, [initialValue])
+
+    React.useEffect(() => {
         $.ajax({
             url: zbURL,
             jsonp: "callback",
             dataType: "jsonp",
             data: {
-                query,
+                query: query,
                 max: 5,
-                type: "koop",
+                type: zbType,
+                niveau: niveau,
+                parent: zbParent,
             },
             success: response => {
-                onChange(query, response.Results)
+                onChange(query, response.Results, niveau, zbType)
             },
         })
-    }
-
-    // Store the input's last value in a ref
-    const input = React.useRef<HTMLInputElement>()
-
-    function handleChange(event) {
-        event.persist()
-        const value = event.target.value
-        fetchData(value)
-    }
+    }, [query])
 
     function clearInput() {
         input.current.value = ""
         input.current.focus()
-        onChange([], "")
+        setQuery("")
     }
 
     const paddingValue = paddingPerSide
@@ -77,20 +91,20 @@ export function ZoekBoxInput(props) {
             center
             width={width}
             height={height}
-            backgroundColor={"transparent"}
+            backgroundColor={customBackground}
         >
             <ZoekBox>
                 <Input
-                    onChange={handleChange}
+                    onChange={event => setQuery(event.target.value)}
                     ref={input}
                     padding={paddingValue}
                     placeholder={"Plaats, buurt, adres, etc."}
+                    color={customTextColor}
                 />
                 <ClearQuery
                     onClick={clearInput}
                     style={{
-                        visibility:
-                            state.results.length > 0 ? "visible" : "hidden",
+                        visibility: query.length > 0 ? "visible" : "hidden",
                     }}
                 >
                     <svg width="18" height="18">
@@ -106,6 +120,23 @@ export function ZoekBoxInput(props) {
 }
 
 addPropertyControls(ZoekBoxInput, {
+    customTextColor: { type: ControlType.Color, title: "Text color" },
+    customBackground: { type: ControlType.Color, title: "Background color" },
+    zbType: {
+        type: ControlType.Enum,
+        title: "Type",
+        defaultValue: "koop",
+        options: ["koop", "huur", "nieuwbouw", "recreatie", "europe"],
+        optionTitles: ["Koop", "Huur", "Nieuwbouw", "Recreatie", "Europe"],
+    },
+    zbNiveau: {
+        type: ControlType.Enum,
+        title: "Niveau",
+        defaultValue: "",
+        options: ["any", "0", "1", "3", "4", "5"],
+        optionTitles: ["Any", "Plaats", "Gemeente", "Buurt", "Regio", "Straat"],
+    },
+    initialValue: { type: ControlType.String, title: "Initial value" },
     padding: {
         type: ControlType.FusedNumber,
         toggleKey: "paddingPerSide",
@@ -125,25 +156,31 @@ addPropertyControls(ZoekBoxInput, {
 ZoekBoxInput.defaultProps = {
     width: 320,
     height: 44,
+    initialValue: "Amsterdam",
     padding: 16,
     paddingPerSide: true,
     paddingTop: 11,
     paddingRight: 16,
     paddingBottom: 11,
     paddingLeft: 16,
+    zbNiveau: 0,
+    zbParent: "",
+    customTextColor: "#333",
+    customBackground: "white",
     onChange: () => null,
-    onSelect: () => null,
 }
 
 const ZoekBox = styled.div`
     width: 100%;
     height: 100%;
     position: relative;
+    background: none;
 `
 
 const Input = styled.input`
     width: 100%;
     height: 100%;
+    background: none;
     border: none;
     outline: none;
     padding: ${props => props.padding};

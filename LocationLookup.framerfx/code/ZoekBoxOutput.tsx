@@ -11,12 +11,10 @@ type Props = Partial<FrameProps> & {
 
 export function ZoekBoxOutput(props) {
     const { width, height, results, query, onSelect } = props
-    const [state, setState] = React.useState({
-        focused: -1,
-    })
+    const [focused, setFocused] = React.useState(-1)
 
     function handleMouseOver(event, index, resultName) {
-        setState({ ...state, focused: index })
+        setFocused(index)
     }
 
     function handleClick(
@@ -42,12 +40,14 @@ export function ZoekBoxOutput(props) {
         >
             <ZoekBox_None
                 width={width}
-                visible={results.length === 0 ? true : false}
+                visible={
+                    results.length === 0 && query.length > 0 ? true : false
+                }
             />
             <Scroll
                 width={"100%"}
                 height={"100%"}
-                visible={results.length === 0 ? false : true}
+                visible={query.length === 0 ? false : true}
                 style={{
                     backgroundColor: "#E6F2F7",
                 }}
@@ -84,7 +84,7 @@ export function ZoekBoxOutput(props) {
                                     )
                                 }}
                                 backgroundColor={
-                                    index === state.focused ? "#E6F2F7" : "#FFF"
+                                    index === focused ? "#E6F2F7" : "#FFF"
                                 }
                                 onMouseOver={e =>
                                     handleMouseOver(

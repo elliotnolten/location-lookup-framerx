@@ -5,16 +5,6 @@ import styled from "styled-components"
 import { ZoekBox_Suggestion, ZoekBox_None } from "./canvas"
 
 type Props = Partial<FrameProps> & {
-    padding: number
-    paddingPerSide: boolean
-    paddingTop: number
-    paddingRight: number
-    paddingBottom: number
-    paddingLeft: number
-    customBackground: string
-    customTextColor: string
-    zbNiveau: string
-    zbType: string
     onChange: (
         query: string,
         results: any,
@@ -27,7 +17,8 @@ export function ZoekBoxInput(props) {
     const {
         width,
         height,
-        initialValue,
+        value,
+        placeholder,
         padding,
         paddingPerSide,
         paddingTop,
@@ -45,7 +36,7 @@ export function ZoekBoxInput(props) {
 
     // Store the input's last value in a ref
     const input = React.useRef<HTMLInputElement>()
-    const [query, setQuery] = React.useState(initialValue)
+    const [query, setQuery] = React.useState(value)
 
     const niveau = zbNiveau === "any" ? null : zbNiveau
 
@@ -54,26 +45,36 @@ export function ZoekBoxInput(props) {
     let isMounted = true
 
     React.useEffect(() => {
-        input.current.value = initialValue
-        setQuery(initialValue)
-    }, [initialValue])
+        if (isMounted) {
+            input.current.value = value
+            setQuery(value)
+        }
+        return () => {
+            isMounted = false
+        }
+    }, [value])
 
     React.useEffect(() => {
-        $.ajax({
-            url: zbURL,
-            jsonp: "callback",
-            dataType: "jsonp",
-            data: {
-                query: query,
-                max: 5,
-                type: zbType,
-                niveau: niveau,
-                parent: zbParent,
-            },
-            success: response => {
-                onChange(query, response.Results, niveau, zbType)
-            },
-        })
+        if (isMounted) {
+            $.ajax({
+                url: zbURL,
+                jsonp: "callback",
+                dataType: "jsonp",
+                data: {
+                    query: query,
+                    max: 5,
+                    type: zbType,
+                    niveau: niveau,
+                    parent: niveau === 3 || niveau === 5 ? zbParent : null,
+                },
+                success: response => {
+                    onChange(query, response.Results, niveau, zbType)
+                },
+            })
+        }
+        return () => {
+            isMounted = false
+        }
     }, [query])
 
     function clearInput() {
@@ -136,7 +137,7 @@ addPropertyControls(ZoekBoxInput, {
         options: ["any", "0", "1", "3", "4", "5"],
         optionTitles: ["Any", "Plaats", "Gemeente", "Buurt", "Regio", "Straat"],
     },
-    initialValue: { type: ControlType.String, title: "Initial value" },
+    value: { type: ControlType.String, title: "Initial value" },
     padding: {
         type: ControlType.FusedNumber,
         toggleKey: "paddingPerSide",
@@ -156,7 +157,7 @@ addPropertyControls(ZoekBoxInput, {
 ZoekBoxInput.defaultProps = {
     width: 320,
     height: 44,
-    initialValue: "Amsterdam",
+    value: "Amsterdam",
     padding: 16,
     paddingPerSide: true,
     paddingTop: 11,
@@ -164,6 +165,7 @@ ZoekBoxInput.defaultProps = {
     paddingBottom: 11,
     paddingLeft: 16,
     zbNiveau: 0,
+    zbType: "koop",
     zbParent: "",
     customTextColor: "#333",
     customBackground: "white",

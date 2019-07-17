@@ -3,7 +3,7 @@ import { Override, Data } from "framer"
 const data = Data({
     output: "hallo",
     zbName: "",
-    zbType: "",
+    zbNiveau: "",
     zbCity: "",
     zbCount: "",
     zbQuery: "Amsterdam",
@@ -12,6 +12,7 @@ const data = Data({
 
 export const SearchLocation: Override = () => {
     return {
+        zbNiveau: data.zbNiveau,
         onChange: (query: string, results: any) => {
             data.zbResults = results
             data.zbQuery = query
@@ -26,13 +27,17 @@ export const SearchSuggestions: Override = () => {
         onSelect: (
             name: string,
             parent: string,
-            type: string,
+            niveau: string,
             count: number
         ) => {
-            console.log(name, parent, type, count)
+            console.log(name, parent, niveau, count)
+            // Store name
             data.zbName = name
-            data.zbCity = parent
-            data.zbType = type
+            // Store parent city
+            data.zbCity = parent !== null ? parent : ""
+            // Store niveau
+            data.zbNiveau = niveau
+            // Store count
             data.zbCount = count.toString()
         },
     }

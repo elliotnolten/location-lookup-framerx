@@ -4,9 +4,14 @@ import { ZoekBox_Suggestion, ZoekBox_None } from "./canvas"
 import styled from "styled-components"
 
 type Props = Partial<FrameProps> & {
-    results: any
-    query: string
-    onSelect: (name: string, parent: string, type: string, count: number) => any
+    onSelect: (
+        name: string,
+        niceName: string,
+        parent: number,
+        parentLabel: string,
+        niveau: any,
+        count: number
+    ) => any
 }
 
 export function ZoekBoxOutput(props) {
@@ -20,11 +25,18 @@ export function ZoekBoxOutput(props) {
     function handleClick(
         index,
         resultName,
-        resultType,
+        resultNiceName,
+        resultNiveau,
         resultParent,
         resultCount
     ) {
-        onSelect(resultName, resultParent, resultType, resultCount)
+        onSelect(
+            resultName,
+            resultNiceName,
+            resultParent,
+            resultNiveau,
+            resultCount
+        )
     }
 
     function Thousands(x) {
@@ -32,12 +44,7 @@ export function ZoekBoxOutput(props) {
     }
 
     return (
-        <Frame
-            center
-            width={width}
-            height={height}
-            backgroundColor={"transparent"}
-        >
+        <Frame width={width} height={height} backgroundColor={"transparent"}>
             <ZoekBox_None
                 width={width}
                 visible={
@@ -60,8 +67,10 @@ export function ZoekBoxOutput(props) {
                 >
                     {results.map((result, index) => {
                         const Name = result.Display.Naam
+                        const Niveau = result.Niveau
                         const NiveauLabel = result.Display.NiveauLabel
                         const City = result.Display.Parent
+                        const Parent = result.Parent
                         const SubText = `${NiveauLabel}${
                             City === null ? "" : ", " + City
                         }`
@@ -77,9 +86,10 @@ export function ZoekBoxOutput(props) {
                                     event.preventDefault()
                                     handleClick(
                                         index,
+                                        Name,
                                         NameBeautified,
-                                        NiveauLabel,
-                                        City,
+                                        Niveau,
+                                        Parent,
                                         result.Aantal
                                     )
                                 }}

@@ -71,7 +71,7 @@ export function LocationLookup(props: Partial<Props>) {
                 setResults(data.response.docs)
             })
         })
-    }, [query, type])
+    }, [query, type, maxAmount])
 
     function handleChange(e) {
         setQuery(e.target.value)

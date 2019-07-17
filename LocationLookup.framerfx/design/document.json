@@ -36,7 +36,7 @@
                   "borderRadius" : 4,
                   "color" : "#333",
                   "fontSize" : 16,
-                  "initialType" : "woonplaats",
+                  "initialType" : "any",
                   "initialValue" : "Amsterdam",
                   "maxAmount" : 5,
                   "padding" : 16,
@@ -13124,15 +13124,15 @@
             "codeComponentProps" : {
               "customBackground" : "white",
               "customTextColor" : "#333",
-              "initialValue" : "Amsterdam",
               "padding" : 16,
               "paddingBottom" : 11,
               "paddingLeft" : 16,
               "paddingPerSide" : false,
               "paddingRight" : 16,
               "paddingTop" : 11,
+              "value" : "Almere",
               "zbNiveau" : "",
-              "zbType" : "europe"
+              "zbType" : "koop"
             },
             "codeOverrideEnabled" : true,
             "codeOverrideFile" : ".\/Overrides.tsx",

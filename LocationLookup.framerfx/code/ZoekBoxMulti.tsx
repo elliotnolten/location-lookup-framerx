@@ -27,18 +27,22 @@ export function ZoekBoxMulti(props) {
         })
     }, [state.niveau])
 
+    let backSpaceIncrements = 0
     function handleKeyDown(event) {
         // On BackSpace
-        let backSpaceIncrements = 0
         if (event.keyCode === 8) {
-            backSpaceIncrements++
-            // console.log(backSpaceIncrements)
-            // If query has no chars
             setState({
                 ...state,
                 hasFocus: false,
                 selectedLocation: state.locations.length - 1,
             })
+            console.log(state.selectedLocation, state.locations.length)
+            // If a location is selected
+            if (state.selectedLocation > -1) {
+                // Delete the selected location
+                state.locations.pop()
+                setState({ ...state, selectedLocation: -1 })
+            }
         }
     }
 
@@ -139,7 +143,7 @@ export function ZoekBoxMulti(props) {
 }
 
 ZoekBoxMulti.defaultProps = {
-    width: 400,
+    width: 320,
 }
 
 const Locaties = styled.ul`

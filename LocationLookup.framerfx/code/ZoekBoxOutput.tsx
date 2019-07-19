@@ -1,0 +1,132 @@
+import * as React from "react"
+import { Frame, FrameProps, Scroll, Stack } from "framer"
+import { ZoekBox_Suggestion, ZoekBox_None } from "./canvas"
+import styled from "styled-components"
+
+type Props = Partial<FrameProps> & {
+    onSelect: (
+        name: string,
+        niceName: string,
+        parent: number,
+        parentLabel: string,
+        niveau: any,
+        niveauLabel: string,
+        count: number
+    ) => any
+}
+
+export function ZoekBoxOutput(props) {
+    const { width, height, results, query, onSelect } = props
+    const [focused, setFocused] = React.useState(-1)
+
+    function handleMouseOver(event, index, resultName) {
+        setFocused(index)
+    }
+
+    function handleClick(
+        index,
+        resultName,
+        resultNiceName,
+        resultParent,
+        resultParentLabel,
+        resultNiveau,
+        resultNiveauLabel,
+        resultCount
+    ) {
+        onSelect(
+            resultName,
+            resultNiceName,
+            resultParent,
+            resultParentLabel,
+            resultNiveau,
+            resultNiveauLabel,
+            resultCount
+        )
+    }
+
+    function Thousands(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }
+
+    return (
+        <Frame width={width} height={height} backgroundColor={"transparent"}>
+            <ZoekBox_None
+                width={width}
+                visible={
+                    results.length === 0 && query.length > 0 ? true : false
+                }
+            />
+            <Scroll
+                width={"100%"}
+                height={"100%"}
+                visible={query.length === 0 ? false : true}
+                style={{
+                    backgroundColor: "#E6F2F7",
+                }}
+            >
+                <Stack
+                    gap={0}
+                    width={width}
+                    height={height}
+                    backgroundColor={"transparent"}
+                >
+                    {results.map((result, index) => {
+                        const Name = result.Display.Naam
+                        const Parent = result.Parent
+                        const ParentLabel = result.Display.Parent
+                        const Niveau = result.Niveau
+                        const NiveauLabel = result.Display.NiveauLabel
+                        const SubText = `${NiveauLabel}${
+                            ParentLabel === null ? "" : ", " + ParentLabel
+                        }`
+                        const Count = Thousands(result.Aantal).toString()
+                        const NameBeautified = `${Name}${
+                            SubText == "Plaats" ? "" : `, ${ParentLabel}`
+                        }`
+                        return (
+                            <ZoekBox_Suggestion
+                                width={width}
+                                key={index}
+                                onTap={event => {
+                                    event.preventDefault()
+                                    handleClick(
+                                        index,
+                                        Name,
+                                        NameBeautified,
+                                        Parent,
+                                        ParentLabel,
+                                        Niveau,
+                                        NiveauLabel,
+                                        result.Aantal
+                                    )
+                                }}
+                                backgroundColor={
+                                    index === focused ? "#E6F2F7" : "#FFF"
+                                }
+                                onMouseOver={e =>
+                                    handleMouseOver(
+                                        event,
+                                        index,
+                                        result.Display.Naam
+                                    )
+                                }
+                                Name={Name}
+                                Info={SubText}
+                                Count={Count}
+                                height={56}
+                            />
+                        )
+                    })}
+                </Stack>
+            </Scroll>
+        </Frame>
+    )
+}
+
+ZoekBoxOutput.defaultProps = {
+    width: 320,
+    height: 320,
+    results: [],
+    query: "",
+    onSelect: () => null,
+}

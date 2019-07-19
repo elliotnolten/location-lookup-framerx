@@ -11,11 +11,12 @@ type Props = Partial<FrameProps> & {
         niveau: string,
         type: string
     ) => void
+    onFocus: (hasFocus: boolean) => void
+    onBlur: (hasBlur: boolean) => void
 }
 
 export function ZoekBoxInput(props) {
     const {
-        width,
         height,
         value,
         placeholder,
@@ -29,14 +30,18 @@ export function ZoekBoxInput(props) {
         zbType,
         zbParent,
         onChange,
-        onSelect,
+        onFocus,
+        onBlur,
         customBackground,
         customTextColor,
+        reset,
+        hasFocus,
     } = props
 
     // Store the input's last value in a ref
     const input = React.useRef<HTMLInputElement>()
     const [query, setQuery] = React.useState(value)
+    const [inputWidth, setInputWidth] = React.useState(68)
 
     const niveau = zbNiveau === "any" ? null : zbNiveau
 
@@ -71,11 +76,37 @@ export function ZoekBoxInput(props) {
                     onChange(query, response.Results, niveau, zbType)
                 },
             })
+            setInputWidth(query.length * 4 + paddingLeft + paddingRight)
         }
         return () => {
             isMounted = false
         }
     }, [query])
+
+    React.useEffect(() => {
+        if (isMounted) {
+            if (reset) {
+                input.current.value = ""
+                setQuery("")
+            } else {
+                input.current.value = value
+                setQuery(value)
+            }
+        }
+        return () => {
+            isMounted = false
+        }
+    }, [reset])
+
+    React.useEffect(() => {
+        if (isMounted) {
+            if (hasFocus) {
+                input.current.focus()
+            } else {
+                input.current.blur()
+            }
+        }
+    }, [hasFocus])
 
     function clearInput() {
         input.current.value = ""
@@ -83,40 +114,33 @@ export function ZoekBoxInput(props) {
         setQuery("")
     }
 
+    function handleFocus(event, hasFocus) {
+        if (hasFocus) {
+            onFocus(true)
+            onBlur(false)
+        } else {
+            onBlur(true)
+            onFocus(false)
+        }
+    }
+
     const paddingValue = paddingPerSide
         ? `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`
         : `${padding}px`
 
     return (
-        <Frame
-            center
-            width={width}
-            height={height}
-            backgroundColor={customBackground}
-        >
-            <ZoekBox>
-                <Input
-                    onChange={event => setQuery(event.target.value)}
-                    ref={input}
-                    padding={paddingValue}
-                    placeholder={"Plaats, buurt, adres, etc."}
-                    color={customTextColor}
-                />
-                <ClearQuery
-                    onClick={clearInput}
-                    style={{
-                        visibility: query.length > 0 ? "visible" : "hidden",
-                    }}
-                >
-                    <svg width="18" height="18">
-                        <path
-                            d="M15.174 2.636A9.058 9.058 0 0 1 17.778 9c0 4.971-3.98 9-8.889 9C3.98 18 0 13.971 0 9s3.98-9 8.889-9c2.357 0 4.618.948 6.285 2.636zM9.831 9l3.613-3.659a.68.68 0 0 0-.016-.937.66.66 0 0 0-.926-.016L8.889 8.046 5.276 4.388a.66.66 0 0 0-.926.016.681.681 0 0 0-.017.937L7.947 9l-3.614 3.658a.683.683 0 0 0-.191.661.662.662 0 1 0 1.134.293l3.613-3.658 3.613 3.658a.661.661 0 0 0 .653.194.67.67 0 0 0 .481-.487.68.68 0 0 0-.192-.661z"
-                            fill="#666"
-                        />
-                    </svg>
-                </ClearQuery>
-            </ZoekBox>
-        </Frame>
+        <Input
+            onChange={event => {
+                setQuery(event.target.value)
+            }}
+            style={{ height: height }}
+            ref={input}
+            padding={paddingValue}
+            placeholder={placeholder}
+            color={customTextColor}
+            onFocus={event => handleFocus(event, true)}
+            onBlur={event => handleFocus(event, false)}
+        />
     )
 }
 
@@ -152,12 +176,13 @@ addPropertyControls(ZoekBoxInput, {
         min: 0,
         title: "Input padding",
     },
+    reset: { type: ControlType.Boolean, title: "Reset" },
 })
 
 ZoekBoxInput.defaultProps = {
-    width: 320,
     height: 44,
     value: "Amsterdam",
+    placeholder: "Plaats, buurt, adres, etc.",
     padding: 16,
     paddingPerSide: true,
     paddingTop: 11,
@@ -169,19 +194,15 @@ ZoekBoxInput.defaultProps = {
     zbParent: "",
     customTextColor: "#333",
     customBackground: "white",
+    reset: false,
+    hasFocus: true,
     onChange: () => null,
+    onFocus: () => null,
+    onBlur: () => null,
 }
 
-const ZoekBox = styled.div`
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background: none;
-`
-
 const Input = styled.input`
-    width: 100%;
-    height: 100%;
+    box-sizing: content-box;
     background: none;
     border: none;
     outline: none;

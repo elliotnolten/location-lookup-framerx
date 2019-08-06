@@ -13400,7 +13400,7 @@
                 "aspectRatio" : null,
                 "bottom" : null,
                 "centerAnchorX" : 0.5,
-                "centerAnchorY" : 0.62,
+                "centerAnchorY" : 0.31773399014778325,
                 "children" : [
 
                 ],
@@ -13443,9 +13443,9 @@
                 "radiusTopRight" : 0,
                 "right" : null,
                 "rotation" : 0,
-                "top" : 96,
+                "top" : 114,
                 "visible" : true,
-                "width" : 339,
+                "width" : 343,
                 "widthType" : 0
               },
               {
@@ -13453,13 +13453,13 @@
                 "autoSize" : false,
                 "bottom" : null,
                 "centerAnchorX" : 0.5,
-                "centerAnchorY" : 0.155,
+                "centerAnchorY" : 0.10591133004926108,
                 "codeOverrideEnabled" : false,
                 "constraintsLocked" : true,
                 "exportOptions" : [
 
                 ],
-                "height" : 36,
+                "height" : 30,
                 "heightType" : 0,
                 "id" : "zEy0qm0Gk",
                 "isTarget" : false,
@@ -13480,8 +13480,8 @@
                           "COLOR:rgb(0, 0, 0)",
                           "LETTERSPACING:0",
                           "FONT:ProximaNova-SemiBold",
-                          "SIZE:24",
-                          "LINEHEIGHT:1.5"
+                          "LINEHEIGHT:1.5",
+                          "SIZE:20"
                         ]
                       },
                       "depth" : 0,
@@ -13507,12 +13507,12 @@
                         {
                           "length" : 25,
                           "offset" : 0,
-                          "style" : "SIZE:24"
+                          "style" : "LINEHEIGHT:1.5"
                         },
                         {
                           "length" : 25,
                           "offset" : 0,
-                          "style" : "LINEHEIGHT:1.5"
+                          "style" : "SIZE:20"
                         }
                       ],
                       "key" : "77fic",
@@ -13521,10 +13521,10 @@
                     }
                   ],
                   "cached" : {
-                    "html" : "<div data-offset-key=\"77fic-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"77fic-0-0\" style=\"tab-size:4;font-family:&quot;ProximaNova-SemiBold&quot;, &quot;Proxima Nova&quot;, serif;-webkit-text-fill-color:rgb(0, 0, 0);font-size:24px;letter-spacing:0px;line-height:1.5;font-weight:600\"><span data-text=\"true\">Zoek op meerdere locaties<\/span><\/span><\/div>",
+                    "html" : "<div data-offset-key=\"77fic-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"77fic-0-0\" style=\"tab-size:4;font-family:&quot;ProximaNova-SemiBold&quot;, &quot;Proxima Nova&quot;, serif;-webkit-text-fill-color:rgb(0, 0, 0);font-size:20px;letter-spacing:0px;line-height:1.5;font-weight:600\"><span data-text=\"true\">Zoek op meerdere locaties<\/span><\/span><\/div>",
                     "os" : "10_14",
                     "size" : {
-                      "height" : 36,
+                      "height" : 30,
                       "width" : 344
                     },
                     "width" : 343
@@ -13533,12 +13533,10 @@
 
                   }
                 },
-                "top" : 44,
+                "top" : 68,
                 "visible" : true,
                 "width" : 343,
-                "widthType" : 0,
-                "x" : 48,
-                "y" : 78
+                "widthType" : 0
               },
               {
                 "__class" : "CodeComponentNode",
@@ -13623,7 +13621,7 @@
             "guidesY" : [
 
             ],
-            "height" : 400,
+            "height" : 812,
             "heightType" : 0,
             "id" : "TqHfetkgn",
             "intrinsicHeight" : null,
@@ -13661,7 +13659,7 @@
         "clip" : true,
         "codeOverrideEnabled" : false,
         "constraintsLocked" : false,
-        "deviceType" : null,
+        "deviceType" : "framer\/FramerAppleIPhoneXS",
         "exportOptions" : [
 
         ],
@@ -13678,7 +13676,7 @@
         "guidesY" : [
 
         ],
-        "height" : 400,
+        "height" : 812,
         "heightType" : 0,
         "id" : "Z7Xa6zjEK",
         "intrinsicHeight" : null,
@@ -13699,7 +13697,7 @@
         "previewSettings" : {
           "__class" : "PreviewSettings",
           "bezel" : true,
-          "deviceType" : null,
+          "deviceType" : "framer\/FramerAppleIPhoneXS",
           "responsive" : true,
           "rotate" : false,
           "skin" : "Gold",

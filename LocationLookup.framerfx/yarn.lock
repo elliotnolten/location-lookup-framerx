@@ -121,10 +121,20 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.4.tgz#a87b4b04e5ae14a88d48ebef15015f6b7d1f5677"
   integrity sha512-kBa+cDHOR9jpRJ+kcGMsysrls0leukrm68DmFQoMIWQcXdr2cZvyvypWuGYT7U+9kAExUE7+T7r6G3C3A6L8MQ==
 
+"@framer/framer.device-skin-apple-iphone-xs-gold@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.framer.com/@framer/framer.device-skin-apple-iphone-xs-gold/-/@framer/framer.device-skin-apple-iphone-xs-gold-1.0.0.tgz#61db13ceaee042e3fdf8e5a2fba41cfba123b4e4"
+  integrity sha512-2WZiD0l+lEIvzKWYGElbqmcXRHZJzBtuytIO2e6gWjtoRKBWq+jYPyH6sfvQlFr8dJqbeghWzQgh6TOzat23DQ==
+
 "@framer/framer.device-skin-apple-iphone-xs-max-gold@^1.0.0":
   version "1.0.0"
   resolved "https://registry.framer.com/@framer/framer.device-skin-apple-iphone-xs-max-gold/-/@framer/framer.device-skin-apple-iphone-xs-max-gold-1.0.0.tgz#0b3545f0e153eb003266430632bf564ed3705119"
   integrity sha512-wMdZ3TbfeVD3uhC6hL/xLw6wZAcjrXvl82Obk5yoGY3HP+xQkoh0o40y34JzY/yIF3/YeyADS0SiEjFeyiF/lg==
+
+"@framer/kasimir.iphone-x-kit@^1.21.0":
+  version "1.21.0"
+  resolved "https://registry.framer.com/@framer/kasimir.iphone-x-kit/-/@framer/kasimir.iphone-x-kit-1.21.0.tgz#3346b679f219f1c2284cd67b41a8022c632887c0"
+  integrity sha512-3MofK5Eq1H2UJ0vuB2fZun9MyhGhg7sVHK4QF16K9xyZVrtu9J4qQah0muqIOHarFCPNdg44Q98IYRetZ/NduA==
 
 "@popmotion/easing@^1.0.1", "@popmotion/easing@^1.0.2":
   version "1.0.2"

@@ -5,12 +5,7 @@ import styled from "styled-components"
 import { ZoekBox_Suggestion, ZoekBox_None } from "./canvas"
 
 type Props = Partial<FrameProps> & {
-    onChange: (
-        query: string,
-        results: any,
-        niveau: string,
-        type: string
-    ) => void
+    onChange: (query: string, results: any, niveau: any, type: string) => void
     onFocus: (hasFocus: boolean) => void
     onBlur: (hasBlur: boolean) => void
 }
@@ -189,7 +184,7 @@ ZoekBoxInput.defaultProps = {
     paddingRight: 16,
     paddingBottom: 11,
     paddingLeft: 16,
-    zbNiveau: 0,
+    zbNiveau: null,
     zbType: "koop",
     zbParent: "",
     customTextColor: "#333",
